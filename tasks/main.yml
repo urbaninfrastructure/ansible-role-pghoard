@@ -1,0 +1,58 @@
+- name: add pghoardbuilder user
+  user: name=pghoardbuilder shell=/bin/bash
+
+- name: install pip
+  apt: name=python3-pip
+
+- name: install psycopg2
+  apt: name=python3-psycopg2
+
+- name: install deps
+  apt: name={{ item }}
+  with_items:
+  - python3-all
+  - python3-requests
+  - python3-flake8
+  - python3-pytest
+  - python3-dateutil
+  - python3-snappy
+  - python3-botocore
+  - git
+
+- name: clone pghoard repo
+  become: yes
+  become_user: pghoardbuilder
+  git: repo=https://github.com/aiven/pghoard.git dest=/home/pghoardbuilder/pghoard version=6025a0e90ef57f3c718d6bcf0842fb70024427bf
+
+- name: install devscripts
+  apt: name=devscripts
+
+- name: check if en_US.UTF-8 locale exists
+  command: bash -c "locale -a | grep en_US.UTF-8"
+  changed_when: result.rc > 0
+  failed_when: false
+  register: result
+
+- name: enable en_US.UTF-8 locale
+  lineinfile: path=/etc/locale.gen regexp="^# en_US.UTF-8" line="en_US.UTF-8 UTF-8"
+  when: result.rc > 0
+
+- name: generate en_US.UTF-8 locale
+  command: bash -c "locale-gen"
+  when: result.rc > 0
+
+- name: make a deb package
+  become: yes
+  become_user: pghoardbuilder
+  shell: cd /home/pghoardbuilder/pghoard && make deb
+  args:
+    creates: /home/pghoardbuilder/pghoard_2.0.0-76-g6025a0e_all.deb
+
+- name: install the deb package
+  apt: deb=/home/pghoardbuilder/pghoard_2.0.0-76-g6025a0e_all.deb
+
+- name: put /var/lib/pghoard/pghoard.json
+  template: src=pghoard.json dest=/var/lib/pghoard/pghoard.json backup=yes
+
+- name: enable pghoard service
+  service: name=pghoard state=started enabled=yes

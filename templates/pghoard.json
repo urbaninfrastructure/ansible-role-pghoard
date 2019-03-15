@@ -1,0 +1,34 @@
+{
+    "backup_location": "/var/lib/pghoard",
+    "backup_sites": {
+{% for backup_site in pghoard_backup_sites %}
+        "default": {
+            "active_backup_mode": "pg_receivexlog",
+            "basebackup_count": 2,
+            "basebackup_interval_hours": 24,
+            "nodes": [
+                {
+                    "host": "{{ backup_site.host }}",
+                    "password": "{{ backup_site.password }}",
+                    "port": {{ backup_site.port }},
+                    "user": "{{ backup_site.user }}"
+                }
+            ],
+            "object_storage": {
+{% for key,value in backup_site.object_storage.iteritems() %}
+                "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
+{% endfor %}
+            },
+            "pg_data_directory": "{{ backup_site.pghoard_pg_data_directory }}",
+            "pg_bin_directory": "/usr/bin"
+        }
+{% endfor %}
+    },
+    "tar_executable": "tar",
+    "http_address": "127.0.0.1",
+    "http_port": 16000,
+    "log_level": "INFO",
+    "syslog": false,
+    "syslog_address": "/dev/log",
+    "syslog_facility": "local2"
+}
