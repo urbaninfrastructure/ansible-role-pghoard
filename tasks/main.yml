@@ -54,5 +54,13 @@
 - name: put /var/lib/pghoard/pghoard.json
   template: src=pghoard.json dest=/var/lib/pghoard/pghoard.json backup=yes
 
+- name: create /etc/systemd/system/pghoard.service.d
+  file: state=directory dest=/etc/systemd/system/pghoard.service.d
+
+- name: put /etc/systemd/system/pghoard.service.d/override.conf
+  template: src=override.conf dest=/etc/systemd/system/pghoard.service.d/override.conf
+  notify: systemctl daemon-reload
+
 - name: enable pghoard service
   service: name=pghoard state=started enabled=yes
+  ignore_errors: True
