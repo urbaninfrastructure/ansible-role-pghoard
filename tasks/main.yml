@@ -19,6 +19,12 @@
   - python3-botocore
   - git
 
+- name: install pip deps
+  pip: name={{ item }} executable="/usr/bin/pip3"
+  with_items:
+  - google-api-python-client
+  - oauth2client
+
 - name: clone pghoard repo
   become: yes
   become_user: pghoardbuilder
