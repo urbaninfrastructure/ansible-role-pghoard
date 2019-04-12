@@ -1,5 +1,5 @@
 {
-    "backup_location": "/var/lib/pghoard",
+    "backup_location": "{{ pghoard_backup_location }}",
     "backup_sites": {
 {% for backup_site in pghoard_backup_sites %}
         "default": {

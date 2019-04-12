@@ -57,6 +57,9 @@
 - name: install the deb package
   apt: deb=/home/pghoardbuilder/pghoard_2.0.0-76-g6025a0e_all.deb
 
+- name: create {{ pghoard_backup_location }}
+  file: dest={{ pghoard_backup_location }} state=directory owner=postgres group=postgres
+
 - name: put /var/lib/pghoard/pghoard.json
   template: src=pghoard.json dest=/var/lib/pghoard/pghoard.json backup=yes
 
