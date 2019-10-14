@@ -15,7 +15,7 @@
                 }
             ],
             "object_storage": {
-{% for key,value in backup_site.object_storage.iteritems() %}
+{% for key,value in backup_site.object_storage.items() %}
                 "{{ key }}": "{{ value }}"{% if not loop.last %},{% endif %}
 {% endfor %}
             },
