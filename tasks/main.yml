@@ -17,6 +17,7 @@
   - python3-dateutil
   - python3-snappy
   - python3-botocore
+  - python3-paramiko
   - git
 
 - name: install pip deps
@@ -28,7 +29,7 @@
 - name: clone pghoard repo
   become: yes
   become_user: pghoardbuilder
-  git: repo=https://github.com/aiven/pghoard.git dest=/home/pghoardbuilder/pghoard version=6025a0e90ef57f3c718d6bcf0842fb70024427bf
+  git: repo=https://github.com/aiven/pghoard.git dest=/home/pghoardbuilder/pghoard version=f11a8da862f779d85b7ddf7aded4fdfbc1408cc1
 
 - name: install devscripts
   apt: name=devscripts
@@ -52,10 +53,10 @@
   become_user: pghoardbuilder
   shell: cd /home/pghoardbuilder/pghoard && make deb
   args:
-    creates: /home/pghoardbuilder/pghoard_2.0.0-76-g6025a0e_all.deb
+    creates: /home/pghoardbuilder/pghoard_2.1.0-27-gf11a8da_all.deb
 
 - name: install the deb package
-  apt: deb=/home/pghoardbuilder/pghoard_2.0.0-76-g6025a0e_all.deb
+  apt: deb=/home/pghoardbuilder/pghoard_2.1.0-27-gf11a8da_all.deb
 
 - name: create {{ pghoard_backup_location }}
   file: dest={{ pghoard_backup_location }} state=directory owner=postgres group=postgres
