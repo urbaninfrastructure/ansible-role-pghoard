@@ -7,6 +7,9 @@
             "basebackup_count": 2,
             "basebackup_interval_hours": 24,
             "basebackup_mode": "{{ backup_site.basebackup_mode | default('basic') }}",
+{% if postgres_version == 10 or postgres_version == 11 %}
+            "pg_receivexlog_path": "/usr/bin/pg_receivewal",
+{% endif %}
             "nodes": [
                 {
                     "host": "{{ backup_site.host }}",
