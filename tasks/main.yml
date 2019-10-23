@@ -25,11 +25,12 @@
   with_items:
   - google-api-python-client
   - oauth2client
+  - "zstandard>=0.11.1"
 
 - name: clone pghoard repo
   become: yes
   become_user: pghoardbuilder
-  git: repo=https://github.com/aiven/pghoard.git dest=/home/pghoardbuilder/pghoard version=f11a8da862f779d85b7ddf7aded4fdfbc1408cc1
+  git: repo=https://github.com/kofonfor/pghoard.git dest=/home/pghoardbuilder/pghoard version=44aff39f2121bc516fdca67be93b169ac62b87de
 
 - name: install devscripts
   apt: name=devscripts
@@ -53,10 +54,10 @@
   become_user: pghoardbuilder
   shell: cd /home/pghoardbuilder/pghoard && make deb
   args:
-    creates: /home/pghoardbuilder/pghoard_2.1.0-27-gf11a8da_all.deb
+    creates: /home/pghoardbuilder/pghoard_2.1.0-28-g44aff39_all.deb
 
 - name: install the deb package
-  apt: deb=/home/pghoardbuilder/pghoard_2.1.0-27-gf11a8da_all.deb
+  apt: deb=/home/pghoardbuilder/pghoard_2.1.0-28-g44aff39_all.deb
 
 - name: create {{ pghoard_backup_location }}
   file: dest={{ pghoard_backup_location }} state=directory owner=postgres group=postgres
