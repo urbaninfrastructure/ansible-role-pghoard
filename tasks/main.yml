@@ -19,6 +19,7 @@
   - python3-botocore
   - python3-paramiko
   - git
+  - debhelper
 
 - name: install pip deps
   pip: name={{ item }} executable="/usr/bin/pip3"
