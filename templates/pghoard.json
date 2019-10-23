@@ -6,6 +6,7 @@
             "active_backup_mode": "pg_receivexlog",
             "basebackup_count": 2,
             "basebackup_interval_hours": 24,
+            "basebackup_mode": "{{ backup_site.basebackup_mode | default('basic') }}",
             "nodes": [
                 {
                     "host": "{{ backup_site.host }}",
