@@ -4,7 +4,7 @@
 {% for backup_site in pghoard_backup_sites %}
         "default": {
             "active_backup_mode": "pg_receivexlog",
-            "basebackup_count": 2,
+            "basebackup_count": {{ pghoard_basebackup_count }},
             "basebackup_interval_hours": 24,
             "basebackup_mode": "{{ backup_site.basebackup_mode | default('basic') }}",
 {% if postgres_version == 10 or postgres_version == 11 %}

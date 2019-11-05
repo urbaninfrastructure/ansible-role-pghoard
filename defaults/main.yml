@@ -1,1 +1,2 @@
 pghoard_backup_location: /var/lib/pghoard
+pghoard_basebackup_count: 2
