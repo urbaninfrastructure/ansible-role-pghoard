@@ -31,7 +31,7 @@
 - name: clone pghoard repo
   become: yes
   become_user: pghoardbuilder
-  git: repo=https://github.com/kofonfor/pghoard.git dest=/home/pghoardbuilder/pghoard version=44aff39f2121bc516fdca67be93b169ac62b87de
+  git: repo=https://github.com/aiven/pghoard.git dest=/home/pghoardbuilder/pghoard version=34f2a9a23d9b44969c4d1b7191810ccf662cf2db
 
 - name: install devscripts
   apt: name=devscripts
