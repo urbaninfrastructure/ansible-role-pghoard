@@ -34,5 +34,8 @@
     "log_level": "INFO",
     "syslog": false,
     "syslog_address": "/dev/log",
-    "syslog_facility": "local2"
+    "syslog_facility": "local2",
+    "pushgateway": {  
+      "endpoint": "10.51.254.105:9091"
+    }
 }
