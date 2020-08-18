@@ -55,10 +55,10 @@
   become_user: pghoardbuilder
   shell: cd /home/pghoardbuilder/pghoard && make deb
   args:
-    creates: /home/pghoardbuilder/pghoard_2.1.0-28-g44aff39_all.deb
+    creates: /home/pghoardbuilder/pghoard_2.1.0-35-g34f2a9a_all.deb
 
 - name: install the deb package
-  apt: deb=/home/pghoardbuilder/pghoard_2.1.0-28-g44aff39_all.deb
+  apt: deb=/home/pghoardbuilder/pghoard_2.1.0-35-g34f2a9a_all.deb
 
 - name: create {{ pghoard_backup_location }}
   file: dest={{ pghoard_backup_location }} state=directory owner=postgres group=postgres
